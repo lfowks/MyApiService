@@ -1,6 +1,8 @@
-﻿using DataAccess;
+﻿using DataAccess.Entities;
+using DataAccess.Entities.Relationships;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Services.Interfaces;
 
 namespace Services
 {
@@ -9,7 +11,9 @@ namespace Services
         public static IServiceCollection AddServices(this IServiceCollection services, IConfiguration configuration)
         {
 
-            services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IGenericSv<Candidate>, GenericSv<Candidate>>();
+            services.AddScoped<IGenericSv<Skill>, GenericSv<Skill>>();
+            services.AddScoped<IGenericSv<CandidateSkill>, GenericSv<CandidateSkill>>();
 
             return services;
         }
