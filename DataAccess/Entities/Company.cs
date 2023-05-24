@@ -10,6 +10,6 @@ namespace DataAccess.Entities
     {
         public string Name { get; set; } = default!;
 
-        public ICollection<Offer> Offers { get; set; } = Enumerable.Empty<Offer>().ToList();
+        public ICollection<Offer>? Offers { get; set; } = Enumerable.Empty<Offer>().ToList();
     }
 }

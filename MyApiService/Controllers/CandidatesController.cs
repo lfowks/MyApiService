@@ -1,5 +1,7 @@
 ﻿using DataAccess.Entities;
+using DataAccess.Entities.Relationships;
 using Microsoft.AspNetCore.Mvc;
+using Services;
 using Services.Interfaces;
 using static Services.Extensions.DtoMapping;
 
@@ -12,10 +14,12 @@ namespace MyApiService.Controllers
     public class CandidatesController : ControllerBase
     {
         public readonly IGenericSv<Candidate> _candidateSv;
+        public readonly IGenericSv<CandidateOffer> _candidateOfferSv;
 
-        public CandidatesController(IGenericSv<Candidate> candidateSv)
+        public CandidatesController(IGenericSv<Candidate> candidateSv, IGenericSv<CandidateOffer> candidateOfferSv)
         {
             _candidateSv = candidateSv;
+            _candidateOfferSv = candidateOfferSv;
         }
 
         // GET: api/<CandidatesController>
@@ -29,7 +33,7 @@ namespace MyApiService.Controllers
         [HttpGet("{id}")]
         public DtoCandidate Get(int id)
         {
-            return _candidateSv.GetByCondition(candidate => candidate.Id == id, "Skills").ToCandidateDto();
+            return _candidateSv.GetByCondition(candidate => candidate.Id == id, "Skills,Offers").ToCandidateDto();
         }
 
         // POST api/<CandidatesController>
@@ -37,6 +41,19 @@ namespace MyApiService.Controllers
         public Candidate Post([FromBody] DtoCandidate candidateRequest)
         {
             return _candidateSv.Add(candidateRequest.ToCandidate());
+        }
+
+        // POST api/<SkillsController>
+        [HttpPost]
+        [Route("apply")]
+        public CandidateOffer AssignCandidateOffer([FromBody] CandidateOffer candidateOfferRequest)
+        {
+            var email = Request.Headers["email"].First();
+
+            Candidate candidate = _candidateSv.GetByCondition(candidate => candidate.Email.Equals(email));
+            candidateOfferRequest.CandidatesId = candidate.Id;
+
+            return _candidateOfferSv.Add(candidateOfferRequest);
         }
     }
 }

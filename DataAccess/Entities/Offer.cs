@@ -14,5 +14,6 @@ namespace DataAccess.Entities
         public int CompanyId { get; set; }
 
         public ICollection<Skill>? Skills { get; set; } = Enumerable.Empty<Skill>().ToList();
+        public ICollection<Candidate>? Candidates { get; set; } = Enumerable.Empty<Candidate>().ToList();
     }
 }

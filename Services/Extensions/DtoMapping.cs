@@ -18,6 +18,7 @@ namespace Services.Extensions
             public string Email { get; set; }
             public string Summary { get; set; }
             public List<DtoSkill>? Skills { get; set; }
+            public List<DtoOffer>? Offers { get; set; }
         }
         public static Candidate ToCandidate(this DtoCandidate dtoCandidate)
         {
@@ -39,7 +40,8 @@ namespace Services.Extensions
                 Email = candidate.Email,
                 Name = candidate.Name,
                 Summary = candidate.Summary,
-                Skills = candidate.Skills.ToList().ToDtoList()
+                Skills = candidate.Skills.ToList().ToDtoList(),
+                Offers = candidate.Offers.ToList().ToDtoList()
             };
 
             return candidateDto;

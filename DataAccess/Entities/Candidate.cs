@@ -14,5 +14,6 @@ namespace DataAccess.Entities
         public string Summary { get; set; } = default!;
 
         public ICollection<Skill>? Skills { get; set; } = Enumerable.Empty<Skill>().ToList();
+        public ICollection<Offer>? Offers { get; set; } = Enumerable.Empty<Offer>().ToList();
     }
 }

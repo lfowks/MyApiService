@@ -14,9 +14,11 @@ namespace Services
             services.AddScoped<IGenericSv<Candidate>, GenericSv<Candidate>>();            
             services.AddScoped<IGenericSv<Offer>, GenericSv<Offer>>();
             services.AddScoped<IGenericSv<Skill>, GenericSv<Skill>>();
+            services.AddScoped<IGenericSv<Company>, GenericSv<Company>>();
 
             services.AddScoped<IGenericSv<CandidateSkill>, GenericSv<CandidateSkill>>();
             services.AddScoped<IGenericSv<OfferSkill>, GenericSv<OfferSkill>>();
+            services.AddScoped<IGenericSv<CandidateOffer>, GenericSv<CandidateOffer>>();
             
             services.AddScoped<ICandidateSkillSv, CandidateSkillSv>();
 

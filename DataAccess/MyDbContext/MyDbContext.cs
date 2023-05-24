@@ -50,6 +50,13 @@ namespace DataAccess
                     l => l.HasOne<Skill>().WithMany().HasForeignKey(e => e.SkillsId),
                     r => r.HasOne<Offer>().WithMany().HasForeignKey(e => e.OffersId));
 
+            modelBuilder.Entity<Candidate>()
+               .HasMany(e => e.Offers)
+               .WithMany(e => e.Candidates)
+               .UsingEntity<CandidateOffer>(
+                   l => l.HasOne<Offer>().WithMany().HasForeignKey(e => e.OffersId),
+                   r => r.HasOne<Candidate>().WithMany().HasForeignKey(e => e.CandidatesId));
+
 
         }
     }
