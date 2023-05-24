@@ -13,6 +13,6 @@ namespace DataAccess.Entities
         public string Email { get; set; } = default!;
         public string Summary { get; set; } = default!;
 
-        public ICollection<Skill> Skills { get; set; } = Enumerable.Empty<Skill>().ToList();
+        public ICollection<Skill>? Skills { get; set; } = Enumerable.Empty<Skill>().ToList();
     }
 }

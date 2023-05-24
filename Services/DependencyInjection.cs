@@ -11,9 +11,14 @@ namespace Services
         public static IServiceCollection AddServices(this IServiceCollection services, IConfiguration configuration)
         {
 
-            services.AddScoped<IGenericSv<Candidate>, GenericSv<Candidate>>();
+            services.AddScoped<IGenericSv<Candidate>, GenericSv<Candidate>>();            
+            services.AddScoped<IGenericSv<Offer>, GenericSv<Offer>>();
             services.AddScoped<IGenericSv<Skill>, GenericSv<Skill>>();
+
             services.AddScoped<IGenericSv<CandidateSkill>, GenericSv<CandidateSkill>>();
+            services.AddScoped<IGenericSv<OfferSkill>, GenericSv<OfferSkill>>();
+            
+            services.AddScoped<ICandidateSkillSv, CandidateSkillSv>();
 
             return services;
         }

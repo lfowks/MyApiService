@@ -11,13 +11,13 @@ namespace Services.Extensions
     {
         #region Candidates
 
-        public struct DtoCandidate 
+        public struct DtoCandidate
         {
             public int Id { get; set; }
             public string Name { get; set; }
             public string Email { get; set; }
             public string Summary { get; set; }
-            public List<DtoSkill> Skills { get; set; }
+            public List<DtoSkill>? Skills { get; set; }
         }
         public static Candidate ToCandidate(this DtoCandidate dtoCandidate)
         {
@@ -86,5 +86,62 @@ namespace Services.Extensions
         }
 
         #endregion
-    }
+
+        #region Companies
+        public struct DtoCompany
+        {
+            public int Id { get; set; }
+
+            public string? Name { get; set; }
+        }
+        #endregion
+
+
+        #region Offers
+        public struct DtoOffer
+        {
+            public int Id { get; set; }
+            public string Name { get; set; }
+            public string Description { get; set; }
+            public DtoCompany Company { get; set; }
+            public int CompanyId { get; set; }
+            public DateTime CreatedDate { get; set; }
+            public List<DtoSkill>? Skills { get; set; }
+        }
+
+        public static DtoOffer ToOfferDto(this Offer offer)
+        {
+            DtoOffer offerDto = new()
+            {
+                Id = offer.Id,
+                Company = new() { Name = offer.Company?.Name },
+                CompanyId = offer.CompanyId,
+                Name = offer.Name,
+                Description = offer.Description,
+                CreatedDate = offer.CreatedDate,
+                Skills = offer.Skills?.ToList().ToDtoList()
+            };
+
+            return offerDto;
+        }
+
+        public static Offer ToOffer(this DtoOffer dtoOffer)
+        {
+            Offer offer = new()
+            {
+                Id = dtoOffer.Id,
+                CompanyId = dtoOffer.CompanyId,
+                Name = dtoOffer.Name,
+                Description = dtoOffer.Description
+            };
+
+            return offer;
+        }
+        public static List<DtoOffer> ToDtoList(this List<Offer> lstOffer)
+        {
+            return lstOffer.ConvertAll(new Converter<Offer, DtoOffer>(ToOfferDto));
+        }
+        #endregion
+    } 
 }
+

@@ -43,6 +43,7 @@ namespace Services
             if (entity is not null)
                 _DbSet.Remove(entity);
         }
+        
 
         //Queries
 
@@ -51,7 +52,7 @@ namespace Services
             IQueryable<T> query = _DbSet;
 
             if(filter is not null)
-                query.Where(filter);
+                query = query.Where(filter);
 
             foreach (var includeProperty in includeProperties.Split
             (new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries))
@@ -67,7 +68,7 @@ namespace Services
             IQueryable<T> query = _DbSet;
 
             if (filter is not null)
-                query.Where(filter);
+                query = query.Where(filter);
 
             foreach (var includeProperty in includeProperties.Split
             (new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries))
