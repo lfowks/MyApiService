@@ -57,6 +57,9 @@ namespace DataAccess
                    l => l.HasOne<Offer>().WithMany().HasForeignKey(e => e.OffersId),
                    r => r.HasOne<Candidate>().WithMany().HasForeignKey(e => e.CandidatesId));
 
+            //Auto Includes
+            modelBuilder.Entity<Offer>().Navigation(e => e.Company).AutoInclude();
+
 
         }
     }

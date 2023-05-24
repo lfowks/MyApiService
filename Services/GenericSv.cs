@@ -43,7 +43,19 @@ namespace Services
             if (entity is not null)
                 _DbSet.Remove(entity);
         }
-        
+
+        public void Delete(params object[] ids)
+        {
+            var entity = _DbSet.Find(ids);
+
+            if (entity is not null)
+            {
+                _DbSet.Remove(entity);
+                _myDbContext.SaveChanges();
+            }                
+
+        }
+
 
         //Queries
 

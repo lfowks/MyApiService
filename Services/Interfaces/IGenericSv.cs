@@ -14,6 +14,7 @@ namespace Services.Interfaces
         public T Add(T candidate);
         public T Update(T candidate);
         public void Delete(int id);
+        public void Delete(params object[] ids);
 
         //Queries
         public List<T> GetAll(Expression<Func<T, bool>>? filter = null, string includeProperties = "");

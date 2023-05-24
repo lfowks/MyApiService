@@ -55,5 +55,13 @@ namespace MyApiService.Controllers
 
             return _candidateOfferSv.Add(candidateOfferRequest);
         }
+
+        // POST api/<SkillsController>
+        [HttpPost]
+        [Route("unapply")]
+        public void UnassignCandidateOffer([FromBody] CandidateOffer candidateOfferRequest)
+        {
+           _candidateOfferSv.Delete(candidateOfferRequest.CandidatesId, candidateOfferRequest.OffersId);
+        }
     }
 }
