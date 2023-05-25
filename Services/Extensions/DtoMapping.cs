@@ -109,7 +109,6 @@ namespace Services.Extensions
         }
         #endregion
 
-
         #region Offers
         public struct DtoOffer
         {
