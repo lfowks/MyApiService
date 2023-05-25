@@ -14,13 +14,11 @@ namespace MyApiService.Controllers
     {
         public readonly IGenericSv<Skill> _skillSv;
         public readonly IGenericSv<CandidateSkill> _candidateSkillSv;
-        public readonly ICandidateSkillSv _customCandidateSkillSv;
 
-        public SkillsController(IGenericSv<Skill> candidateSv, IGenericSv<CandidateSkill> candidateSkillSv, ICandidateSkillSv customCandidateSkillSv)
+        public SkillsController(IGenericSv<Skill> candidateSv, IGenericSv<CandidateSkill> candidateSkillSv)
         {
             _skillSv = candidateSv;
             _candidateSkillSv = candidateSkillSv;
-            _customCandidateSkillSv = customCandidateSkillSv;
         }
 
         // GET: api/<SkillsController>
@@ -56,7 +54,7 @@ namespace MyApiService.Controllers
         [Route("deassign")]
         public void DeassignCandidateSkill([FromBody] CandidateSkill candidateSkillRequest)
         {
-            _customCandidateSkillSv.DeleteByComposeKey(candidateSkillRequest.CandidatesId,candidateSkillRequest.SkillsId);
+            _candidateSkillSv.Delete(candidateSkillRequest.CandidatesId,candidateSkillRequest.SkillsId);
         }
     }
 }
