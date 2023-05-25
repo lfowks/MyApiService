@@ -32,6 +32,14 @@ namespace Services.Extensions
 
             return candidate;
         }
+
+        public static bool setSkillStatus(DtoSkill skillSearch, List<DtoSkill> candidateSkills)
+        {
+            if (candidateSkills.FindAll(skill=>skill.Id == skillSearch.Id).Count > 0){
+                return true;
+            }
+            return false;
+        }
         public static DtoCandidate ToCandidateDto(this Candidate candidate)
         {
             DtoCandidate candidateDto = new()
@@ -43,6 +51,8 @@ namespace Services.Extensions
                 Skills = candidate.Skills.ToList().ToDtoList(),
                 Offers = candidate.Offers.ToList().ToDtoList()
             };
+
+            candidateDto.Offers.ForEach(offer => offer.Skills?.ForEach(skill => skill.Status = setSkillStatus(skill, candidateDto.Skills)));
 
             return candidateDto;
         }
@@ -59,10 +69,11 @@ namespace Services.Extensions
 
         #region Skills    
 
-        public struct DtoSkill
+        public class DtoSkill
         {
             public int Id { get; set; }
             public string Name { get; set; }
+            public bool Status { get; set; }
         }
         public static Skill ToSkill(this DtoSkill dtoSkill)
         {

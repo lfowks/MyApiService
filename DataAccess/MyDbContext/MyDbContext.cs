@@ -59,6 +59,7 @@ namespace DataAccess
 
             //Auto Includes
             modelBuilder.Entity<Offer>().Navigation(e => e.Company).AutoInclude();
+            modelBuilder.Entity<Offer>().Navigation(e => e.Skills).AutoInclude();
 
 
         }
