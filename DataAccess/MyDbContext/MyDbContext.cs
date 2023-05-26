@@ -17,6 +17,7 @@ namespace DataAccess
         //TABLES PROJECT
         public DbSet<Company> Companies { get; set; } = default!;
         public DbSet<Candidate> Candidates { get; set; } = default!;
+        public DbSet<Formation> Formations { get; set; } = default!;
         public DbSet<Offer> Offers { get; set; } = default!;
         public DbSet<Skill> Skills { get; set; } = default!;
 
@@ -32,6 +33,11 @@ namespace DataAccess
             .HasOne<Company>(o => o.Company)
             .WithMany(c => c.Offers)
             .HasForeignKey(o => o.CompanyId);
+
+            modelBuilder.Entity<Formation>()
+            .HasOne<Candidate>(o => o.Candidate)
+            .WithMany(c => c.Formations)
+            .HasForeignKey(o => o.CandidateId);
 
 
             // Many to Many
@@ -59,8 +65,7 @@ namespace DataAccess
 
             //Auto Includes
             modelBuilder.Entity<Offer>().Navigation(e => e.Company).AutoInclude();
-            modelBuilder.Entity<Offer>().Navigation(e => e.Skills).AutoInclude();
-
+            modelBuilder.Entity<Offer>().Navigation(e => e.Skills).AutoInclude();        
 
         }
     }

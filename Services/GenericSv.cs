@@ -41,7 +41,11 @@ namespace Services
             var entity = _DbSet.Find(id);
 
             if (entity is not null)
+            {
                 _DbSet.Remove(entity);
+                _myDbContext.SaveChanges();
+            }
+                
         }
 
         public void Delete(params object[] ids)

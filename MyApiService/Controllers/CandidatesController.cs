@@ -26,14 +26,14 @@ namespace MyApiService.Controllers
         [HttpGet]
         public List<DtoCandidate> Get()
         {
-            return _candidateSv.GetAll().ToDtoList();
+            return _candidateSv.GetAll().ToDtoList().OrderByDescending(candidate=>candidate.Id).ToList();
         }
 
         // GET api/<CandidatesController>/5
         [HttpGet("{id}")]
         public DtoCandidate Get(int id)
         {
-            return _candidateSv.GetByCondition(candidate => candidate.Id == id, "Skills,Offers").ToCandidateDto();
+            return _candidateSv.GetByCondition(candidate => candidate.Id == id, "Skills,Offers,Formations").ToCandidateDto();
         }
 
         // POST api/<CandidatesController>
@@ -42,6 +42,7 @@ namespace MyApiService.Controllers
         {
             return _candidateSv.Add(candidateRequest.ToCandidate());
         }
+
 
         // POST api/<SkillsController>
         [HttpPost]
@@ -62,6 +63,13 @@ namespace MyApiService.Controllers
         public void UnassignCandidateOffer([FromBody] CandidateOffer candidateOfferRequest)
         {
            _candidateOfferSv.Delete(candidateOfferRequest.CandidatesId, candidateOfferRequest.OffersId);
+        }
+
+
+        [HttpDelete("{id}")]
+        public void Delete(int id)
+        {
+            _candidateSv.Delete(id);
         }
     }
 }

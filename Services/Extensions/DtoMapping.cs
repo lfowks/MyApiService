@@ -1,4 +1,5 @@
 ﻿using DataAccess.Entities;
+using DataAccess.Migrations;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,6 +20,7 @@ namespace Services.Extensions
             public string Summary { get; set; }
             public List<DtoSkill>? Skills { get; set; }
             public List<DtoOffer>? Offers { get; set; }
+            public List<DtoFormation>? Formations { get; set; }
         }
         public static Candidate ToCandidate(this DtoCandidate dtoCandidate)
         {
@@ -49,7 +51,8 @@ namespace Services.Extensions
                 Name = candidate.Name,
                 Summary = candidate.Summary,
                 Skills = candidate.Skills.ToList().ToDtoList(),
-                Offers = candidate.Offers.ToList().ToDtoList()
+                Offers = candidate.Offers.ToList().ToDtoList(),
+                Formations = candidate.Formations.ToList().ToDtoList().OrderByDescending(formation => formation.Id).ToList(),
             };
 
             candidateDto.Offers.ForEach(offer => offer.Skills?.ForEach(skill => skill.Status = setSkillStatus(skill, candidateDto.Skills)));
@@ -65,6 +68,51 @@ namespace Services.Extensions
             return lstSkill.ConvertAll(new Converter<Skill, DtoSkill>(ToSkillDto));
         }
 
+        #endregion
+
+        #region Formations
+
+        public struct DtoFormation
+        {
+            public int Id { get; set; }
+            public string Title { get; set; }
+            public string Description { get; set; }
+            public int CandidateId { get; set; }
+            public string Date { get; set; }
+        }
+
+        public static DtoFormation ToFormationDto(this Formation formation)
+        {
+            DtoFormation formationDto = new()
+            {
+                Id = formation.Id,
+                Title = formation.Title,
+                Description = formation.Description,
+                CandidateId = formation.CandidateId,
+                Date = formation.Date.ToShortDateString()
+            };
+
+            return formationDto;
+        }
+
+        public static Formation ToFormation(this DtoFormation formationDto)
+        {
+            Formation formation = new()
+            {
+                Id = formationDto.Id,
+                Title = formationDto.Title,
+                Description = formationDto.Description,
+                CandidateId = formationDto.CandidateId,
+                Date = DateTime.Parse(formationDto.Date)
+            };
+
+            return formation;
+        }
+
+        public static List<DtoFormation> ToDtoList(this List<Formation> lstFormation)
+        {
+            return lstFormation.ConvertAll(new Converter<Formation, DtoFormation>(ToFormationDto));
+        }
         #endregion
 
         #region Skills    

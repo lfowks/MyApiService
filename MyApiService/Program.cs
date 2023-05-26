@@ -1,4 +1,5 @@
 using DataAccess;
+using MyApiService;
 using Services;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -16,6 +17,9 @@ builder.Services.AddCors(options =>
 // Add External Dependencies
 builder.Services.AddDataAccess(builder.Configuration);
 builder.Services.AddServices(builder.Configuration);
+
+//Seeder Service
+builder.Services.AddScoped<DataSeeder>();
 
 // Add services to the container.
 
@@ -38,6 +42,13 @@ app.UseHttpsRedirection();
 app.UseCors(MyAllowSpecificOrigins);
 
 app.UseAuthorization();
+
+//Seeding Data for Testing
+using (var scope = app.Services.CreateScope())
+{
+    var services = scope.ServiceProvider.GetRequiredService<DataSeeder>;
+    services.Invoke().Seed();
+}
 
 app.MapControllers();
 
