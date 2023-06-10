@@ -1,5 +1,6 @@
 ﻿using DataAccess.Entities;
 using DataAccess.Entities.Relationships;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Services;
 using Services.Interfaces;
@@ -24,6 +25,7 @@ namespace MyApiService.Controllers
 
         // GET: api/<CandidatesController>
         [HttpGet]
+        [Authorize]
         public List<DtoCandidate> Get()
         {
             return _candidateSv.GetAll().ToDtoList().OrderByDescending(candidate=>candidate.Id).ToList();

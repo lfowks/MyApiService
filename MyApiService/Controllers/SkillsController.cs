@@ -1,5 +1,6 @@
 ﻿using DataAccess.Entities;
 using DataAccess.Entities.Relationships;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Services.Interfaces;
 using static Services.Extensions.DtoMapping;
@@ -10,22 +11,34 @@ namespace MyApiService.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class SkillsController : ControllerBase
     {
         public readonly IGenericSv<Skill> _skillSv;
         public readonly IGenericSv<CandidateSkill> _candidateSkillSv;
+        public readonly IConfiguration _configuration;
 
-        public SkillsController(IGenericSv<Skill> candidateSv, IGenericSv<CandidateSkill> candidateSkillSv)
+        public SkillsController(IGenericSv<Skill> candidateSv, IGenericSv<CandidateSkill> candidateSkillSv, IConfiguration configuration)
         {
             _skillSv = candidateSv;
             _candidateSkillSv = candidateSkillSv;
+            _configuration = configuration;
         }
 
         // GET: api/<SkillsController>
         [HttpGet]
+        //[AllowAnonymous]
         public List<DtoSkill> Get()
         {
-            return _skillSv.GetAll().ToDtoList();
+            try
+            {
+                return _skillSv.GetAll().ToDtoList();
+            }
+            catch (Exception ex)
+            {
+
+                throw;
+            }
         }
 
         // GET api/<SkillsController>/5

@@ -1,5 +1,6 @@
 ﻿using DataAccess.Entities;
 using DataAccess.Entities.Relationships;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Services;
 using Services.Interfaces;
@@ -11,6 +12,7 @@ namespace MyApiService.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class OffersController : ControllerBase
     {
         public readonly IGenericSv<Offer> _offerSv;
