@@ -11,7 +11,7 @@ namespace MyApiService.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize]
+    //[Authorize]
     public class SkillsController : ControllerBase
     {
         public readonly IGenericSv<Skill> _skillSv;

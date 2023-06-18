@@ -25,7 +25,7 @@ namespace MyApiService.Controllers
 
         // GET: api/<CandidatesController>
         [HttpGet]
-        [Authorize]
+        //[Authorize]
         public List<DtoCandidate> Get()
         {
             return _candidateSv.GetAll().ToDtoList().OrderByDescending(candidate=>candidate.Id).ToList();

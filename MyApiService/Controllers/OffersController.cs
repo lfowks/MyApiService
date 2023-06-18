@@ -12,7 +12,7 @@ namespace MyApiService.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize]
+    //[Authorize]
     public class OffersController : ControllerBase
     {
         public readonly IGenericSv<Offer> _offerSv;

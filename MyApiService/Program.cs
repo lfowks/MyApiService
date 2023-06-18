@@ -71,9 +71,9 @@ app.UseHttpsRedirection();
 
 app.UseCors(MyAllowSpecificOrigins);
 
-app.UseAuthentication();
+//app.UseAuthentication();
 app.UseRouting();
-app.UseAuthorization();
+//app.UseAuthorization();
 
 //Seeding Data for Testing
 using (var scope = app.Services.CreateScope())
